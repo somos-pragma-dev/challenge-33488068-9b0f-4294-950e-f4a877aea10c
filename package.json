@@ -1,0 +1,76 @@
+{
+  "name": "loan-request-api",
+  "version": "1.0.0",
+  "description": "API REST para gestión de solicitudes de préstamos en fintech - Rust/Actix Web",
+  "private": true,
+  "workspaces": [
+    "."
+  ],
+  "scripts": {
+    "build": "cargo build --release",
+    "dev": "cargo run",
+    "test": "cargo test",
+    "test:integration": "cargo test --test loan_request_integration_test",
+    "migrate": "diesel migration run",
+    "migrate:redo": "diesel migration redo",
+    "lint": "cargo clippy",
+    "fmt": "cargo fmt",
+    "db:setup": "echo 'Configurando base de datos...' && diesel setup",
+    "clean": "cargo clean"
+  },
+  "keywords": [
+    "actix-web",
+    "rust",
+    "fintech",
+    "loan-management",
+    "rest-api",
+    "diesel",
+    "async"
+  ],
+  "author": "Fintech Development Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/company/loan-request-api"
+  },
+  "engines": {
+    "rust": ">=1.75.0",
+    "cargo": ">=1.75.0"
+  },
+  "devDependencies": {
+    "dotenv": "0.15.0"
+  },
+  "dependencies": {
+    "actix-web": "4.9.0",
+    "diesel": "2.2.0",
+    "diesel-async": "0.4.0",
+    "serde": "1.0.203",
+    "tokio": "1.38.0",
+    "thiserror": "1.0.59",
+    "actix-web-validator": "5.0.0",
+    "backoff": "0.4.0"
+  },
+  "build": {
+    "rust": {
+      "profile": "release",
+      "lto": true,
+      "opt-level": 3
+    }
+  },
+  "config": {
+    "database": {
+      "url": "postgresql://user:password@localhost/loan_db",
+      "pool_size": 20,
+      "timeout_seconds": 30
+    },
+    "risk_engine": {
+      "base_url": "http://risk-engine.internal:8080",
+      "timeout_seconds": 10,
+      "max_retries": 3
+    },
+    "audit": {
+      "enabled": true,
+      "queue_name": "audit_events"
+    }
+  }
+}
